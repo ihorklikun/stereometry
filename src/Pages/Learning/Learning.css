@@ -1,0 +1,132 @@
+.row-container{
+    height: 90%;
+}
+
+.row-canvas-container{
+    height: 80%;
+    margin: 30px;
+}
+
+.top-header{
+    font-size: 48px;
+    font-weight: lighter;
+}
+
+.tab .header{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.tab .text{
+    font-size: 18px;
+    font-weight: lighter;
+    margin-right: 100px;
+}
+
+.card-container{
+    margin: 20px;
+}
+
+.menu{
+    overflow-y: scroll;
+    height: 100%;
+}
+
+.column-container{
+    height: 100%;
+}
+
+.card-container{
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.cover{
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+}
+
+.popover{
+    position: absolute;
+    z-index: 2;
+}
+
+.button-wrapper{
+    margin-right: 20px;
+    width: 190px;
+}
+
+.picker-wrapper{
+    margin-top: 10px;
+    margin: 0 auto;
+    margin-right: auto !important;
+    margin-bottom: 0px !important;
+}
+
+.align-container{
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+
+.bm-menu{
+    background-color: #212529 !important;
+}
+.bm-item {
+    display: inline-block;
+  
+    /* Our sidebar item styling */
+    text-decoration: none;
+    margin-bottom: 10px;
+    color: "black";
+    transition: color 0.2s;
+  }
+  
+  .bm-item:hover {
+    color: black;
+  }
+  
+  .bm-burger-button {
+    position: fixed;
+    width: 36px;
+    height: 30px;
+    right: 36px;
+    top: 90px;
+  }
+  
+  /* Color/shape of burger icon bars */
+  .bm-burger-bars {
+    background: #373a47;
+  }
+  
+  /* Position and sizing of clickable cross button */
+  .bm-cross-button {
+    height: 24px;
+    width: 24px;
+  }
+  
+  /* Color/shape of close button cross */
+  .bm-cross {
+    background: #bdc3c7;
+  }
+  
+  /* General sidebar styles */
+  .bm-menu {
+    background: #000;
+    padding: 2.5em 1.5em 0;
+    font-size: 1.15em;
+  }
+  
+  /* Morph shape necessary with bubble or elastic */
+  .bm-morph-shape {
+    fill: #373a47;
+  }
+  
+  /* Wrapper for item list */
+  .bm-item-list {
+    color: #212529;
+  }
+  

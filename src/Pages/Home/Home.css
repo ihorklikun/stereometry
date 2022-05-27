@@ -1,0 +1,24 @@
+.home-my-container{
+    margin: 0 30px;
+    height: 70%;
+}
+
+.home-row-container{
+    height: 50%;
+}
+
+.home-top-header{
+    font-size: 48px;
+    font-weight: lighter;
+}
+
+.home-tab .header{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.home-tab .text{
+    font-size: 18px;
+    font-weight: lighter;
+    margin-right: 100px;
+}
