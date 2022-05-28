@@ -42,6 +42,7 @@ const Navigation: FC = () => {
     setEmail("");
     setPassword("");
     setConfimPassword("");
+    window.location.reload();
   }
 
   function handleSignUp() {
