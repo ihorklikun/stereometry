@@ -1,7 +1,28 @@
 import "./UserProfile.css";
 import React, { useRef, useState, FC, useEffect } from "react";
-import { Tabs, Tab, Row, Col, Button, Form } from "react-bootstrap";
+import {
+  Tabs,
+  Tab,
+  Row,
+  Col,
+  Button,
+  Form,
+  Spinner,
+  Card,
+} from "react-bootstrap";
 import axios from "axios";
+
+class userShapesProps {
+  id: string = "";
+  addedDateTime: string = "";
+  updatedDateTime: string = "";
+  json: string = "";
+  isAvailableInGallary: boolean = true;
+  shapeTypeId: string = "";
+  shapeTypeName: string = "";
+  regularUserId: string = "";
+  title: string = "";
+}
 
 interface UserProfileProps {}
 const UserProfile: FC<UserProfileProps> = (props) => {
@@ -15,6 +36,32 @@ const UserProfile: FC<UserProfileProps> = (props) => {
     localStorage.getItem("UserLastname") || ""
   );
   const [email, setEmail] = useState(localStorage.getItem("UserEmail") || "");
+  const [userShapes, setUserShapes] = useState<Array<userShapesProps>>([]);
+
+  useEffect(() => {
+    axios
+      .get("https://localhost:44334/api/Shape/GetUserShapes", {
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((responce) => {
+        var d = new Array<userShapesProps>();
+
+        var o = responce.data;
+        o.map((obj: any) => {
+          d.push(obj);
+        });
+        console.log(d);
+        setUserShapes(d);
+      })
+      .finally(() => {})
+      .catch((e) => {
+        console.log(e);
+        alert(e.message);
+      });
+  }, []);
 
   function changeUserInfo() {
     const json = {
@@ -46,6 +93,71 @@ const UserProfile: FC<UserProfileProps> = (props) => {
       });
   }
 
+  function formatDateTime(dateTime: string) {
+    const dateMas = dateTime.split("T");
+    const time = dateMas[1].slice(0, 5);
+    const date = dateMas[0];
+
+    return `Date: ${date} Time: ${time}`;
+  }
+
+  function changeAvailableInGallary(id: string, currentState: boolean) {
+    //alert(id + `${currentState}`);
+    var isConfirmed = false;
+
+    if (currentState == true) {
+      window.confirm("Are you sure you wish to remove from gallary this item?")
+        ? (isConfirmed = true)
+        : (isConfirmed = false);
+    } else {
+      window.confirm(
+        "Are you sure you wish to add to public gallary this item?"
+      )
+        ? (isConfirmed = true)
+        : (isConfirmed = false);
+    }
+
+    if (isConfirmed) {
+      axios
+        .put("https://localhost:44334/api/Shape/RemoveFromGallary?id=" + id, {
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((responce) => {
+          console.log(responce.data);
+        })
+        .finally(function () {
+          axios
+            .get("https://localhost:44334/api/Shape/GetUserShapes", {
+              headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            })
+            .then((responce) => {
+              var d = new Array<userShapesProps>();
+
+              var o = responce.data;
+              o.map((obj: any) => {
+                d.push(obj);
+              });
+              console.log(d);
+              setUserShapes(d);
+            })
+            .finally(() => {})
+            .catch((e) => {
+              console.log(e);
+              alert(e.message);
+            });
+        })
+        .catch((e) => {
+          console.log(e);
+          alert(e.message);
+        });
+    }
+  }
   return (
     <>
       <Row className="justify-content-md-center tab-container">
@@ -147,8 +259,70 @@ const UserProfile: FC<UserProfileProps> = (props) => {
                 )
               )}
             </Tab>
-            <Tab eventKey="profile" title="Profile"></Tab>
-            <Tab eventKey="contact" title="Contact"></Tab>
+            <Tab eventKey="profile" title="Gallary">
+              {userShapes.length < 1 ? (
+                <>
+                  <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                  <p>Loading...</p>
+                </>
+              ) : (
+                <>
+                  {userShapes.map((shape: userShapesProps) => (
+                    <div key={shape.id}>
+                      <Card
+                        style={{ width: "18rem", maxWidth: "350px" }}
+                        className="card-container"
+                      >
+                        <Card.Body>
+                          <Card.Title>{shape.title}</Card.Title>
+                          <p>{formatDateTime(shape.addedDateTime)}</p>
+                          <p>{formatDateTime(shape.updatedDateTime)}</p>
+                          <p>{`${shape.isAvailableInGallary}`}</p>
+
+                          <Button
+                            style={{ marginRight: "10px" }}
+                            onClick={() => {
+                              alert(shape.id);
+                            }}
+                            variant="success"
+                          >
+                            Display
+                          </Button>
+                          <Button
+                            style={{ marginRight: "10px" }}
+                            variant="warning"
+                            onClick={() => {}}
+                          >
+                            Change
+                          </Button>
+                          <Button variant="danger" onClick={() => {}}>
+                            Delete
+                          </Button>
+                          <Button
+                            style={{ marginTop: "10px", width: "250px" }}
+                            variant="outline-primary"
+                            onClick={() => {
+                              changeAvailableInGallary(
+                                shape.id,
+                                shape.isAvailableInGallary
+                              );
+                            }}
+                          >
+                            {shape.isAvailableInGallary ? (
+                              <>Remove From Gallary</>
+                            ) : (
+                              <>Add Gallary</>
+                            )}
+                          </Button>
+                        </Card.Body>
+                      </Card>
+                    </div>
+                  ))}
+                </>
+              )}
+            </Tab>
           </Tabs>
         </Col>
       </Row>
