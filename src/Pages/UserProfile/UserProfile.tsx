@@ -158,6 +158,56 @@ const UserProfile: FC<UserProfileProps> = (props) => {
         });
     }
   }
+
+  function deleteShapeFromUserGallary(id: string) {
+    var isConfirmed = false;
+    window.confirm(
+      "Are you sure you wish to delete from your gallary this item?"
+    )
+      ? (isConfirmed = true)
+      : (isConfirmed = false);
+
+    if (isConfirmed == true) {
+      axios
+        .delete("https://localhost:44334/api/Shape/Delete?id=" + id, {
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        })
+        .then((responce) => {
+          console.log(responce.data);
+        })
+        .finally(function () {
+          axios
+            .get("https://localhost:44334/api/Shape/GetUserShapes", {
+              headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            })
+            .then((responce) => {
+              var d = new Array<userShapesProps>();
+
+              var o = responce.data;
+              o.map((obj: any) => {
+                d.push(obj);
+              });
+              console.log(d);
+              setUserShapes(d);
+            })
+            .finally(() => {})
+            .catch((e) => {
+              console.log(e);
+              alert(e.message);
+            });
+        })
+        .catch((e) => {
+          console.log(e);
+          alert(e.message);
+        });
+    }
+  }
   return (
     <>
       <Row className="justify-content-md-center tab-container">
@@ -269,57 +319,61 @@ const UserProfile: FC<UserProfileProps> = (props) => {
                 </>
               ) : (
                 <>
-                  {userShapes.map((shape: userShapesProps) => (
-                    <div key={shape.id}>
-                      <Card
-                        style={{ width: "18rem", maxWidth: "350px" }}
-                        className="card-container"
-                      >
-                        <Card.Body>
-                          <Card.Title>{shape.title}</Card.Title>
-                          <p>{formatDateTime(shape.addedDateTime)}</p>
-                          <p>{formatDateTime(shape.updatedDateTime)}</p>
-                          <p>{`${shape.isAvailableInGallary}`}</p>
+                  <Row>
+                    {userShapes.map((shape: userShapesProps) => (
+                      <Col key={shape.id} lg = "3">
+                        <Card style={{ width: "18rem", maxWidth: "350px" }}>
+                          <Card.Body>
+                            <Card.Title>{shape.title}</Card.Title>
+                            <p>{formatDateTime(shape.addedDateTime)}</p>
+                            <p>{formatDateTime(shape.updatedDateTime)}</p>
+                            <p>{`${shape.isAvailableInGallary}`}</p>
 
-                          <Button
-                            style={{ marginRight: "10px" }}
-                            onClick={() => {
-                              alert(shape.id);
-                            }}
-                            variant="success"
-                          >
-                            Display
-                          </Button>
-                          <Button
-                            style={{ marginRight: "10px" }}
-                            variant="warning"
-                            onClick={() => {}}
-                          >
-                            Change
-                          </Button>
-                          <Button variant="danger" onClick={() => {}}>
-                            Delete
-                          </Button>
-                          <Button
-                            style={{ marginTop: "10px", width: "250px" }}
-                            variant="outline-primary"
-                            onClick={() => {
-                              changeAvailableInGallary(
-                                shape.id,
-                                shape.isAvailableInGallary
-                              );
-                            }}
-                          >
-                            {shape.isAvailableInGallary ? (
-                              <>Remove From Gallary</>
-                            ) : (
-                              <>Add Gallary</>
-                            )}
-                          </Button>
-                        </Card.Body>
-                      </Card>
-                    </div>
-                  ))}
+                            <Button
+                              style={{ marginRight: "10px" }}
+                              onClick={() => {
+                                alert(shape.id);
+                              }}
+                              variant="success"
+                            >
+                              Display
+                            </Button>
+                            <Button
+                              style={{ marginRight: "10px" }}
+                              variant="warning"
+                              onClick={() => {}}
+                            >
+                              Change
+                            </Button>
+                            <Button
+                              variant="danger"
+                              onClick={() => {
+                                deleteShapeFromUserGallary(shape.id);
+                              }}
+                            >
+                              Delete
+                            </Button>
+                            <Button
+                              style={{ marginTop: "10px", width: "250px" }}
+                              variant="outline-primary"
+                              onClick={() => {
+                                changeAvailableInGallary(
+                                  shape.id,
+                                  shape.isAvailableInGallary
+                                );
+                              }}
+                            >
+                              {shape.isAvailableInGallary ? (
+                                <>Remove From Gallary</>
+                              ) : (
+                                <>Add Gallary</>
+                              )}
+                            </Button>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    ))}
+                  </Row>
                 </>
               )}
             </Tab>
