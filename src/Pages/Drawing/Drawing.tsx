@@ -64,255 +64,269 @@ const Drawing: FC<DrawingProps> = (props) => {
 
   return (
     <>
-      <Menu>
-        <div className="menu">
-          <Card
-            style={{ width: "18rem", maxWidth: "200px" }}
-            className="card-container"
-          >
-            <Card.Img variant="top" src={cubeImg} />
-            <Card.Body>
-              <Card.Title>Cube</Card.Title>
-              <Button
-                onClick={() => {
-                  setSelecId(1);
-                }}
-                variant="primary"
+      {localStorage.getItem("token") ? (
+        <>
+          <Menu>
+            <div className="menu">
+              <Card
+                style={{ width: "18rem", maxWidth: "200px" }}
+                className="card-container"
               >
-                Select
-              </Button>
-            </Card.Body>
-          </Card>
+                <Card.Img variant="top" src={cubeImg} />
+                <Card.Body>
+                  <Card.Title>Cube</Card.Title>
+                  <Button
+                    onClick={() => {
+                      setSelecId(1);
+                    }}
+                    variant="primary"
+                  >
+                    Select
+                  </Button>
+                </Card.Body>
+              </Card>
 
-          <Card
-            style={{ width: "18rem", maxWidth: "200px" }}
-            className="card-container"
-          >
-            <Card.Img variant="top" src={sphereImg} />
-            <Card.Body>
-              <Card.Title>Sphere</Card.Title>
-              <Button
-                onClick={() => {
-                  setSelecId(2);
-                }}
-                variant="primary"
+              <Card
+                style={{ width: "18rem", maxWidth: "200px" }}
+                className="card-container"
               >
-                Select
-              </Button>
-            </Card.Body>
-          </Card>
+                <Card.Img variant="top" src={sphereImg} />
+                <Card.Body>
+                  <Card.Title>Sphere</Card.Title>
+                  <Button
+                    onClick={() => {
+                      setSelecId(2);
+                    }}
+                    variant="primary"
+                  >
+                    Select
+                  </Button>
+                </Card.Body>
+              </Card>
 
-          <Card
-            style={{ width: "18rem", maxWidth: "200px" }}
-            className="card-container"
-          >
-            <Card.Img variant="top" src={cylinderImg} />
-            <Card.Body>
-              <Card.Title>Cylinder</Card.Title>
-              <Button
-                onClick={() => {
-                  setSelecId(3);
-                }}
-                variant="primary"
+              <Card
+                style={{ width: "18rem", maxWidth: "200px" }}
+                className="card-container"
               >
-                Select
-              </Button>
-            </Card.Body>
-          </Card>
+                <Card.Img variant="top" src={cylinderImg} />
+                <Card.Body>
+                  <Card.Title>Cylinder</Card.Title>
+                  <Button
+                    onClick={() => {
+                      setSelecId(3);
+                    }}
+                    variant="primary"
+                  >
+                    Select
+                  </Button>
+                </Card.Body>
+              </Card>
 
-          <Card
-            style={{ width: "18rem", maxWidth: "200px" }}
-            className="card-container"
-          >
-            <Card.Img variant="top" src={coneImg} />
-            <Card.Body>
-              <Card.Title>Cone</Card.Title>
-              <Button
-                onClick={() => {
-                  setSelecId(4);
-                }}
-                variant="primary"
+              <Card
+                style={{ width: "18rem", maxWidth: "200px" }}
+                className="card-container"
               >
-                Select
-              </Button>
-            </Card.Body>
-          </Card>
+                <Card.Img variant="top" src={coneImg} />
+                <Card.Body>
+                  <Card.Title>Cone</Card.Title>
+                  <Button
+                    onClick={() => {
+                      setSelecId(4);
+                    }}
+                    variant="primary"
+                  >
+                    Select
+                  </Button>
+                </Card.Body>
+              </Card>
 
-          <Card
-            style={{ width: "18rem", maxWidth: "200px", marginBottom: "100px" }}
-            className="card-container"
-          >
-            <Card.Img variant="top" src={torusImg} />
-            <Card.Body>
-              <Card.Title>Torus</Card.Title>
-              <Button
-                onClick={() => {
-                  setSelecId(5);
+              <Card
+                style={{
+                  width: "18rem",
+                  maxWidth: "200px",
+                  marginBottom: "100px",
                 }}
-                variant="primary"
+                className="card-container"
               >
-                Select
-              </Button>
-            </Card.Body>
-          </Card>
-        </div>
-      </Menu>
-      <Row className="row-container">
-        <Col lg={12}>
-          <Row className="row-canvas-container">
-            <Canvas ref={myRef}>
-              <CameraControls ref={cameraControls} />
-              <pointLight position={[10, 10, 10]}></pointLight>
-              <pointLight position={[-10, -10, -10]}></pointLight>
-              {selectId == 1 ? (
-                <Cube
-                  ref={cubeRef}
-                  isRVisible={true}
-                  isTopsVisible={true}
-                  isWireframe={false}
-                  args={[3, 3, 3]}
-                  color={"blue"}
-                  position={[0, 0, 0]}
-                  isTransparent={true}
-                  eventNumber={radioValue}
-                ></Cube>
-              ) : (
-                <></>
-              )}
-              {selectId == 2 ? (
-                <Sphere
-                  isBorderVisible={true}
-                  isTopsVisible={true}
-                  isCenterEnabled
-                  isWireframe={false}
-                  args={[3, 62]}
-                  color={"blue"}
-                  position={[0, 0, 0]}
-                  isTransparent={true}
-                ></Sphere>
-              ) : (
-                <></>
-              )}
-              {selectId == 3 ? (
-                <Cylinder
-                  isTopsVisible={true}
-                  isWireframe={false}
-                  args={[2, 2, 3, 32]}
-                  color={"blue"}
-                  position={[0, 0, 0]}
-                  isTransparent={true}
-                  isInner={false}
-                  isBorderVisible={true}
-                ></Cylinder>
-              ) : (
-                <></>
-              )}
-              {selectId == 4 ? (
-                <Cone
-                  isBorderVisible={true}
-                  isTopsVisible={true}
-                  isWireframe={false}
-                  args={[2, 4, 32]}
-                  color={"blue"}
-                  rotationX={Math.PI / 2}
-                  //position={[0, 0, 0]}
-                  isTransparent={true}
-                ></Cone>
-              ) : (
-                <></>
-              )}
-              {selectId == 5 ? (
-                <Torus
-                  //isTopsVisible={isTopVisible}
-                  //isWireframe={isWireframe}
-                  args={[3, 0.5, 30, 100]}
-                  color={"blue"}
-                  rotationX={Math.PI / 2}
-                  //position={[0, 0, 0]}
-                  //true={true}
-                ></Torus>
-              ) : (
-                <></>
-              )}
-              {/* <gridHelper /> */}
-            </Canvas>
-          </Row>
-          <Row>
-            <Button
-              onClick={() => {
-                setSaveModal(true);
-              }}
-            >
-              Save
-            </Button>
-            <ButtonGroup>
-              {radios.map((radio, idx) => (
-                <ToggleButton
-                  key={idx}
-                  id={`radio-${idx}`}
-                  type="radio"
-                  variant={"outline-success"}
-                  name="radio"
-                  value={radio.value}
-                  checked={radioValue === radio.value}
-                  onChange={(e) => setRadioValue(e.currentTarget.value)}
-                >
-                  {radio.name}
-                </ToggleButton>
-              ))}
-            </ButtonGroup>
-          </Row>
-        </Col>
-      </Row>
-
-      <Modal
-        show={showSaveModal}
-        onHide={() => {
-          setSaveModal(false);
-        }}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Save shape to gallary</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="shapeTitle">
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                required
-                placeholder="My shape"
-                value={shapeTitle}
-                onChange={(e) => {
-                  setShapeTitle(e.target.value);
-                }}
-              />
-              <Form.Text className="text-muted">
-                It can be seen by other users
-              </Form.Text>
-            </Form.Group>
-            <Form.Group
-              controlId="shapeCheckbox"
-              style={{ marginBottom: "20px" }}
-            >
-              <div style={{ marginTop: "10px", marginBottom: "10px" }}>
-                <Form.Check
-                  type="checkbox"
-                  label="Publish to gallary"
-                  checked={shapeAvailableInGallary}
-                  onChange={(e) => {
-                    setShapeAvailableInGallary(e.target.checked);
+                <Card.Img variant="top" src={torusImg} />
+                <Card.Body>
+                  <Card.Title>Torus</Card.Title>
+                  <Button
+                    onClick={() => {
+                      setSelecId(5);
+                    }}
+                    variant="primary"
+                  >
+                    Select
+                  </Button>
+                </Card.Body>
+              </Card>
+            </div>
+          </Menu>
+          <Row className="row-container">
+            <Col lg={12}>
+              <Row className="row-canvas-container">
+                <Canvas ref={myRef}>
+                  <CameraControls ref={cameraControls} />
+                  <pointLight position={[10, 10, 10]}></pointLight>
+                  <pointLight position={[-10, -10, -10]}></pointLight>
+                  {selectId == 1 ? (
+                    <Cube
+                      ref={cubeRef}
+                      isRVisible={true}
+                      isTopsVisible={true}
+                      isWireframe={false}
+                      args={[3, 3, 3]}
+                      color={"blue"}
+                      position={[0, 0, 0]}
+                      isTransparent={true}
+                      eventNumber={radioValue}
+                    ></Cube>
+                  ) : (
+                    <></>
+                  )}
+                  {selectId == 2 ? (
+                    <Sphere
+                      isBorderVisible={true}
+                      isTopsVisible={true}
+                      isCenterEnabled
+                      isWireframe={false}
+                      args={[3, 62]}
+                      color={"blue"}
+                      position={[0, 0, 0]}
+                      isTransparent={true}
+                    ></Sphere>
+                  ) : (
+                    <></>
+                  )}
+                  {selectId == 3 ? (
+                    <Cylinder
+                      isTopsVisible={true}
+                      isWireframe={false}
+                      args={[2, 2, 3, 32]}
+                      color={"blue"}
+                      position={[0, 0, 0]}
+                      isTransparent={true}
+                      isInner={false}
+                      isBorderVisible={true}
+                    ></Cylinder>
+                  ) : (
+                    <></>
+                  )}
+                  {selectId == 4 ? (
+                    <Cone
+                      isBorderVisible={true}
+                      isTopsVisible={true}
+                      isWireframe={false}
+                      args={[2, 4, 32]}
+                      color={"blue"}
+                      rotationX={Math.PI / 2}
+                      //position={[0, 0, 0]}
+                      isTransparent={true}
+                    ></Cone>
+                  ) : (
+                    <></>
+                  )}
+                  {selectId == 5 ? (
+                    <Torus
+                      //isTopsVisible={isTopVisible}
+                      //isWireframe={isWireframe}
+                      args={[3, 0.5, 30, 100]}
+                      color={"blue"}
+                      rotationX={Math.PI / 2}
+                      //position={[0, 0, 0]}
+                      //true={true}
+                    ></Torus>
+                  ) : (
+                    <></>
+                  )}
+                  {/* <gridHelper /> */}
+                </Canvas>
+              </Row>
+              <Row>
+                <Button
+                  onClick={() => {
+                    setSaveModal(true);
                   }}
-                />
-              </div>
-            </Form.Group>
-            <Form.Group controlId="fromSubmitButton">
-              <Button variant="primary" onClick={saveShape}>
-                Submit
-              </Button>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-      </Modal>
+                >
+                  Save
+                </Button>
+                <ButtonGroup>
+                  {radios.map((radio, idx) => (
+                    <ToggleButton
+                      key={idx}
+                      id={`radio-${idx}`}
+                      type="radio"
+                      variant={"outline-success"}
+                      name="radio"
+                      value={radio.value}
+                      checked={radioValue === radio.value}
+                      onChange={(e) => setRadioValue(e.currentTarget.value)}
+                    >
+                      {radio.name}
+                    </ToggleButton>
+                  ))}
+                </ButtonGroup>
+              </Row>
+            </Col>
+          </Row>
+
+          <Modal
+            show={showSaveModal}
+            onHide={() => {
+              setSaveModal(false);
+            }}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Save shape to gallary</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group controlId="shapeTitle">
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control
+                    required
+                    placeholder="My shape"
+                    value={shapeTitle}
+                    onChange={(e) => {
+                      setShapeTitle(e.target.value);
+                    }}
+                  />
+                  <Form.Text className="text-muted">
+                    It can be seen by other users
+                  </Form.Text>
+                </Form.Group>
+                <Form.Group
+                  controlId="shapeCheckbox"
+                  style={{ marginBottom: "20px" }}
+                >
+                  <div style={{ marginTop: "10px", marginBottom: "10px" }}>
+                    <Form.Check
+                      type="checkbox"
+                      label="Publish to gallary"
+                      checked={shapeAvailableInGallary}
+                      onChange={(e) => {
+                        setShapeAvailableInGallary(e.target.checked);
+                      }}
+                    />
+                  </div>
+                </Form.Group>
+                <Form.Group controlId="fromSubmitButton">
+                  <Button variant="primary" onClick={saveShape}>
+                    Submit
+                  </Button>
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+          </Modal>
+        </>
+      ) : (
+        <>
+          <>
+            <h1>To drawing, please Log In</h1>
+          </>
+        </>
+      )}
     </>
   );
 };

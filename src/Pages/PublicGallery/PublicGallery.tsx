@@ -121,41 +121,55 @@ const PublicGallery: FC<PublicGalleryProps> = (props) => {
 
   return (
     <>
-      {localStorage.getItem("token") ? (
-        <Row className="justify-content-md-center tab-container">
-          <Col lg="8">
-            {userShapes.length < 1 ? (
-              <>
-                <Spinner animation="border" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </Spinner>
-                <p>Loading...</p>
-              </>
-            ) : (
-              <>
-                <Row>
-                  {userShapes.map((shape: userShapesProps) => (
-                    <Col key={shape.id} lg="3">
-                      <Card
-                        style={{
-                          width: "18rem",
-                          maxWidth: "350px",
-                          marginBottom: "20px",
-                        }}
-                      >
-                        <Card.Body>
-                          <Card.Title>{shape.title}</Card.Title>
-                          <i>
-                            {"Author: " +
-                              shape.regularUserFirstName +
-                              " " +
-                              shape.regularUserLastName}
-                          </i>
-                          <br />
-                          <i>
-                            {"Added at: " + formatDateTime(shape.addedDateTime)}
-                          </i>
+      <Row className="justify-content-md-center tab-container">
+        <Col lg="8">
+          {userShapes.length < 1 ? (
+            <>
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+              <p>Loading...</p>
+            </>
+          ) : (
+            <>
+              <Row>
+                {userShapes.map((shape: userShapesProps) => (
+                  <Col key={shape.id} lg="3">
+                    <Card
+                      style={{
+                        width: "18rem",
+                        maxWidth: "350px",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      <Card.Body>
+                        <Card.Title>{shape.title}</Card.Title>
+                        <i>
+                          {"Author: " +
+                            shape.regularUserFirstName +
+                            " " +
+                            shape.regularUserLastName}
+                        </i>
+                        <br />
+                        <i>
+                          {"Added at: " + formatDateTime(shape.addedDateTime)}
+                        </i>
 
+                        <Button
+                          style={{
+                            marginRight: "10px",
+                            marginTop: "10px",
+                            width: "250px",
+                          }}
+                          onClick={() => {
+                            displayShape(shape);
+                          }}
+                          variant="success"
+                        >
+                          Display
+                        </Button>
+
+                        {localStorage.getItem("UserRole") == "RegularUser" && (
                           <Button
                             style={{
                               marginRight: "10px",
@@ -163,43 +177,22 @@ const PublicGallery: FC<PublicGalleryProps> = (props) => {
                               width: "250px",
                             }}
                             onClick={() => {
-                              displayShape(shape);
+                              deleteShape(shape);
                             }}
-                            variant="success"
+                            variant="danger"
                           >
-                            Display
+                            Delete
                           </Button>
-
-                          {localStorage.getItem("UserRole") ==
-                            "RegularUser" && (
-                            <Button
-                              style={{
-                                marginRight: "10px",
-                                marginTop: "10px",
-                                width: "250px",
-                              }}
-                              onClick={() => {
-                                deleteShape(shape);
-                              }}
-                              variant="danger"
-                            >
-                              Delete
-                            </Button>
-                          )}
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                  ))}
-                </Row>
-              </>
-            )}
-          </Col>
-        </Row>
-      ) : (
-        <>
-        <h1>To see public gallary, please Log In</h1>
-        </>
-      )}
+                        )}
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            </>
+          )}
+        </Col>
+      </Row>
     </>
   );
 };
