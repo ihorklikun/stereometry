@@ -17,7 +17,7 @@ export interface CanShowAlert {
   showAlert(title: string, availableInGallary: boolean): void;
 }
 
-interface CubeProps {
+interface PramidProps {
   isTransparent?: boolean;
   args: any;
   color: any;
@@ -29,10 +29,9 @@ interface CubeProps {
   eventNumber: string;
 }
 
-const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
-  const [hovered, hover] = useState(false);
+const Pramid = forwardRef<CanShowAlert, PramidProps>((props, ref) => {
   const [clicked, click] = useState(false);
-  const cube = useRef<THREE.Mesh>(null);
+  const piramid = useRef<THREE.Mesh>(null);
   const scene = useThree((state) => state.scene);
   const renderer = useThree((state) => state.gl);
 
@@ -54,8 +53,6 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
   const [planeTempPointMas, setPlaneTempPointMas] = useState<
     Array<ThreeEvent<PointerEvent>>
   >([]);
-
-  const loader = new THREE.ObjectLoader();
 
   useImperativeHandle(ref, () => ({
     showAlert(title: string, availableInGallary: boolean) {
@@ -132,6 +129,7 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
       point.position.z = onePointMas[0].point.z;
       scene.add(point);
       onePointMas.pop();
+      console.log(point);
     }
     if (props.eventNumber == "2") {
       if (firstPointMas.length == 1 && secondPointMas.length == 0) {
@@ -247,106 +245,121 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
         onPointerDown={(e) => {
           pointDown(e);
         }}
-        ref={cube}
+        ref={piramid}
         position={props.position}
         scale={1}
         onClick={(event) => click(!clicked)}
       >
-        <boxBufferGeometry args={props.args} />
+        <coneBufferGeometry args={[2, 3, 4]}></coneBufferGeometry>
         <meshPhongMaterial
           wireframe={props.isWireframe}
           color={props.color}
           transparent={props.isTransparent}
-          opacity={props.isTransparent ? 0.5 : 1}
+          opacity={props.isTransparent ? 0.4 : 1}
           side={THREE.DoubleSide}
         />
 
-        {props.isRVisible == true && (
-          <>
-            <Cylinder
-              color={"red"}
-              args={[0.04, 0.04, 3, 32]}
-              position={[3 / 2, 3 / 2, 0]}
-              rotationX={Math.PI / 2}
-            ></Cylinder>
-            <Cylinder
-              color={"red"}
-              args={[0.04, 0.04, 3, 32]}
-              position={[-3 / 2, 3 / 2, 0]}
-              rotationX={Math.PI / 2}
-            ></Cylinder>
-            <Cylinder
-              color={"red"}
-              args={[0.04, 0.04, 3, 32]}
-              position={[3 / 2, -3 / 2, 0]}
-              rotationX={Math.PI / 2}
-            ></Cylinder>
-            <Cylinder
-              color={"red"}
-              args={[0.04, 0.04, 3, 32]}
-              position={[-3 / 2, -3 / 2, 0]}
-              rotationX={Math.PI / 2}
-            ></Cylinder>
-            <Cylinder
-              color={"red"}
-              args={[0.04, 0.04, 3, 32]}
-              position={[0, 3 / 2, 3 / 2]}
-              rotationX={Math.PI / 2}
-              rotationZ={Math.PI / 2}
-            ></Cylinder>
-            <Cylinder
-              color={"red"}
-              args={[0.04, 0.04, 3, 32]}
-              position={[0, 3 / 2, -3 / 2]}
-              rotationX={Math.PI / 2}
-              rotationZ={Math.PI / 2}
-            ></Cylinder>
-            <Cylinder
-              color={"red"}
-              args={[0.04, 0.04, 3, 32]}
-              position={[0, -3 / 2, -3 / 2]}
-              rotationX={Math.PI / 2}
-              rotationZ={Math.PI / 2}
-            ></Cylinder>
-            <Cylinder
-              color={"red"}
-              args={[0.04, 0.04, 3, 32]}
-              position={[0, -3 / 2, 3 / 2]}
-              rotationX={Math.PI / 2}
-              rotationZ={Math.PI / 2}
-            ></Cylinder>
-            <Cylinder
-              color={"red"}
-              args={[0.04, 0.04, 3, 32]}
-              position={[3 / 2, 0, 3 / 2]}
-              rotationX={0}
-              rotationZ={0}
-            ></Cylinder>
-            <Cylinder
-              color={"red"}
-              args={[0.04, 0.04, 3, 32]}
-              position={[-3 / 2, 0, 3 / 2]}
-              rotationX={0}
-              rotationZ={0}
-            ></Cylinder>
-            <Cylinder
-              color={"red"}
-              args={[0.04, 0.04, 3, 32]}
-              position={[3 / 2, 0, -3 / 2]}
-              rotationX={0}
-              rotationZ={0}
-            ></Cylinder>
-            <Cylinder
-              color={"red"}
-              args={[0.04, 0.04, 3, 32]}
-              position={[-3 / 2, 0, -3 / 2]}
-              rotationX={0}
-              rotationZ={0}
-            ></Cylinder>
-          </>
-        )}
+        <Cylinder
+          color={"red"}
+          args={[0.04, 0.04, 2.8, 32]}
+          position={[0, 0, 0]}
+          //rotationX={Math.PI / 2}
+        ></Cylinder>
+        <Cylinder
+          color={"red"}
+          args={[0.04, 0.04, 2.8, 32]}
+          position={[1, -1.5, 1]}
+          rotationX={Math.PI / 2}
+          rotationZ={Math.PI / 4}
+        ></Cylinder>
+        <Cylinder
+          color={"red"}
+          args={[0.04, 0.04, 2.8, 32]}
+          position={[-1, -1.5, -1]}
+          rotationX={Math.PI / 2}
+          rotationZ={Math.PI / 4}
+        ></Cylinder>
+
+        <Cylinder
+          color={"red"}
+          args={[0.04, 0.04, 2.8, 32]}
+          position={[-1, -1.5, 1]}
+          rotationX={Math.PI / 2}
+          rotationZ={2.36}
+        ></Cylinder>
+
+        <Cylinder
+          color={"red"}
+          args={[0.04, 0.04, 2.8, 32]}
+          position={[1, -1.5, -1]}
+          rotationX={Math.PI / 2}
+          rotationZ={2.36}
+        ></Cylinder>
+
+        <Cylinder
+          color={"red"}
+          args={[0.04, 0.04, Math.sqrt(12), 32]}
+          position={[0, 0, -1]}
+          rotationX={Math.PI / 5 - 0.05}
+          rotationZ={0}
+        ></Cylinder>
+
+        <Cylinder
+          color={"red"}
+          args={[0.04, 0.04, Math.sqrt(12), 32]}
+          position={[0, 0, 1]}
+          rotationX={(Math.PI / 5 - 0.05) * -1}
+          rotationZ={0}
+        ></Cylinder>
+
+        <Cylinder
+          color={"red"}
+          args={[0.04, 0.04, Math.sqrt(12), 32]}
+          position={[-1, 0, 0]}
+          rotationX={0}
+          rotationZ={(Math.PI / 5 - 0.05) * -1}
+        ></Cylinder>
+
+        <Cylinder
+          color={"red"}
+          args={[0.04, 0.04, Math.sqrt(12), 32]}
+          position={[1, 0, 0]}
+          rotationX={0}
+          rotationZ={Math.PI / 5 - 0.05}
+        ></Cylinder>
+
+        <Sphere
+          args={[0.1, 30, 30]}
+          position={[2, -1.5, 0]}
+          color={"red"}
+        ></Sphere>
+        <Sphere
+          args={[0.1, 30, 30]}
+          position={[-2, -1.5, 0]}
+          color={"red"}
+        ></Sphere>
+        <Sphere
+          args={[0.1, 30, 30]}
+          position={[0, -1.5, -2]}
+          color={"red"}
+        ></Sphere>
+        <Sphere
+          args={[0.1, 30, 30]}
+          position={[0, -1.5, 2]}
+          color={"red"}
+        ></Sphere>
+        <Sphere
+          args={[0.1, 30, 30]}
+          position={[0, -1.5, 0]}
+          color={"red"}
+        ></Sphere>
+        <Sphere
+          args={[0.1, 30, 30]}
+          position={[0, 1.5, 0]}
+          color={"red"}
+        ></Sphere>
       </mesh>
     </>
   );
 });
-export default Cube;
+export default Pramid;

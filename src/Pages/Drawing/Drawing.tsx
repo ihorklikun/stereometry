@@ -21,8 +21,10 @@ import sphereImg from "../../../src/assets/sphere-img.png";
 import coneImg from "../../../src/assets/cone.png";
 import torusImg from "../../../src/assets/torus.png";
 import cylinderImg from "../../../src/assets/cylinder.png";
+import pyramidImg from "../../../src/assets/pyramid-img.png";
 
 import Cube from "./components/Cube";
+import Pyramid from "./components/Piramid";
 
 import Sphere from "../../components/Sphere";
 import Torus from "../../components/Torus";
@@ -78,6 +80,24 @@ const Drawing: FC<DrawingProps> = (props) => {
                   <Button
                     onClick={() => {
                       setSelecId(1);
+                    }}
+                    variant="primary"
+                  >
+                    Select
+                  </Button>
+                </Card.Body>
+              </Card>
+
+              <Card
+                style={{ width: "18rem", maxWidth: "200px" }}
+                className="card-container"
+              >
+                <Card.Img variant="top" src={pyramidImg} />
+                <Card.Body>
+                  <Card.Title>Pyramid</Card.Title>
+                  <Button
+                    onClick={() => {
+                      setSelecId(6);
                     }}
                     variant="primary"
                   >
@@ -182,6 +202,21 @@ const Drawing: FC<DrawingProps> = (props) => {
                       isTransparent={true}
                       eventNumber={radioValue}
                     ></Cube>
+                  ) : (
+                    <></>
+                  )}
+                  {selectId == 6 ? (
+                    <Pyramid
+                      ref={cubeRef}
+                      isRVisible={true}
+                      isTopsVisible={true}
+                      isWireframe={false}
+                      args={[3, 3, 3]}
+                      color={"blue"}
+                      position={[0, 0, 0]}
+                      isTransparent={true}
+                      eventNumber={radioValue}
+                    ></Pyramid>
                   ) : (
                     <></>
                   )}
