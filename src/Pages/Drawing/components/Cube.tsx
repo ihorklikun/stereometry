@@ -6,12 +6,15 @@ import React, {
   useImperativeHandle,
 } from "react";
 import * as THREE from "three";
-import { Color, Material, MeshPhongMaterial } from "three";
+import { Color, Material, MeshLambertMaterial, MeshPhongMaterial } from "three";
 import Sphere from "../../../components/Sphere";
 import Cylinder from "../../../components/Cylinder";
 import { ThreeEvent, useFrame, useThree, Vector3 } from "@react-three/fiber";
 import axios from "axios";
 import { ConvexGeometry } from "three/examples/jsm/geometries/ConvexGeometry";
+import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry";
+import myFont from "../../../assets/Roboto_Regular.json";
 
 export interface CanShowAlert {
   showAlert(title: string, availableInGallary: boolean): void;
@@ -31,12 +34,42 @@ interface CubeProps {
 }
 
 const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
+  const font = new FontLoader().parse(myFont);
   const [hovered, hover] = useState(false);
   const [clicked, click] = useState(false);
   const cube = useRef<THREE.Mesh>(null);
   const scene = useThree((state) => state.scene);
   const renderer = useThree((state) => state.gl);
 
+  const [alphabetNum, setAlphabetNum] = useState(0);
+  const alphabet = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+  ];
   const [firstPointMas, setFirstPointMas] = useState<
     Array<ThreeEvent<PointerEvent>>
   >([]);
@@ -56,7 +89,39 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
     Array<ThreeEvent<PointerEvent>>
   >([]);
 
-  const loader = new THREE.ObjectLoader();
+  function addTextToPoint(point: THREE.Vector3) {
+    var geo = new TextGeometry(alphabet[alphabetNum], {
+      font: font,
+      size: 0.2,
+      height: 0.01,
+    });
+
+    setAlphabetNum(alphabetNum + 1);
+
+    var mat = new MeshLambertMaterial({ color: "gold" });
+    var text = new THREE.Mesh(geo, mat);
+    if (point.x >= 0) {
+      text.position.x = point.x + 0.1;
+    } else {
+      text.position.x = point.x - 0.1;
+    }
+
+    if (point.y >= 0) {
+      text.position.y = point.y + 0.1;
+    } else {
+      text.position.y = point.y - 0.1;
+    }
+
+    if (point.z >= 0) {
+      text.position.z = point.z + 0.1;
+    } else {
+      text.position.z = point.z - 0.1;
+    }
+
+    text.name = "new";
+
+    scene.add(text);
+  }
 
   useImperativeHandle(ref, () => ({
     showAlert(title: string, availableInGallary: boolean) {
@@ -143,6 +208,7 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
       point.position.z = onePointMas[0].point.z;
       point.name = "new";
       scene.add(point);
+      //addTextToPoint(point.position);
       onePointMas.pop();
     }
     if (props.eventNumber == "2") {

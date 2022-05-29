@@ -62,8 +62,8 @@ const SavedShape: FC<SavedShapeProps> = (props) => {
       )
       .then((responce) => {
         var data = responce.data;
-        setJson(data.json);
         console.log(data);
+        setJson(data.json);
       })
       .finally(function () {})
       .catch((e) => {

@@ -11,8 +11,9 @@ const ShapeItem: FC<ShapeItemProps> = (props) => {
   const loader = new THREE.ObjectLoader();
 
   useEffect(() => {
-    console.log(props.json);
     var obj = JSON.parse(props.json);
+    console.log(obj);
+
     const object = loader.parse(obj);
     scene.updateMatrixWorld();
     scene.add(object);
