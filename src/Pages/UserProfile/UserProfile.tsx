@@ -98,7 +98,7 @@ const UserProfile: FC<UserProfileProps> = (props) => {
     const time = dateMas[1].slice(0, 5);
     const date = dateMas[0];
 
-    const dateSplited = date.split("-")
+    const dateSplited = date.split("-");
     return `${time} ${dateSplited[2]}-${dateSplited[1]}-${dateSplited[0]} `;
   }
 
@@ -211,7 +211,7 @@ const UserProfile: FC<UserProfileProps> = (props) => {
   }
 
   function displayShape(shape: userShapesProps) {
-    window.open("http://localhost:3000/galery?id=" + shape.id);
+    window.open("http://localhost:3000/shape-display?id=" + shape.id);
   }
   return (
     <>
@@ -336,12 +336,15 @@ const UserProfile: FC<UserProfileProps> = (props) => {
                         >
                           <Card.Body>
                             <Card.Title>{shape.title}</Card.Title>
-                            <p>{"Added at " + formatDateTime(shape.addedDateTime)}</p>
+                            <p>
+                              {"Added at " +
+                                formatDateTime(shape.addedDateTime)}
+                            </p>
                             <p>
                               {shape.isAvailableInGallary ? (
-                                <>Avaible in public gallary</>
+                                <>Avaible in public gallery</>
                               ) : (
-                                <>Avaible only in your gallary</>
+                                <>Avaible only in your gallery</>
                               )}
                             </p>
 
@@ -378,9 +381,9 @@ const UserProfile: FC<UserProfileProps> = (props) => {
                               }}
                             >
                               {shape.isAvailableInGallary ? (
-                                <>Remove From Gallary</>
+                                <>Remove from Public Gallery</>
                               ) : (
-                                <>Add Gallary</>
+                                <>Add to Public Gallery</>
                               )}
                             </Button>
                           </Card.Body>

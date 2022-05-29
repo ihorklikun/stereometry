@@ -13,6 +13,7 @@ import Learning from "../src/Pages/Learning/Learning";
 import UserProfile from "./Pages/UserProfile/UserProfile";
 import Drawing from "./Pages/Drawing/Drawing";
 import SavedShape from "./Pages/SavedShape/SavedShape";
+import PublicGallery from "./Pages/PublicGallery/PublicGallery";
 
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
@@ -34,7 +35,14 @@ export default function App() {
             element={<UserProfile></UserProfile>}
           ></Route>
           <Route path="/drawing" element={<Drawing></Drawing>}></Route>
-          <Route path="/galery" element={<SavedShape></SavedShape>}></Route>
+          <Route
+            path="/gallery"
+            element={<PublicGallery></PublicGallery>}
+          ></Route>
+          <Route
+            path="/shape-display"
+            element={<SavedShape></SavedShape>}
+          ></Route>
         </Routes>
       </BrowserRouter>
     </>

@@ -170,7 +170,7 @@ const Navigation: FC = () => {
             <Nav.Link href="/home">Home</Nav.Link>
             <Nav.Link href="/learning">Learning</Nav.Link>
             <Nav.Link href="/drawing">Drawing</Nav.Link>
-            <Nav.Link href="/galery">Galery</Nav.Link>
+            <Nav.Link href="/gallery">Gallery</Nav.Link>
           </Nav>
 
           {localStorage.getItem("UserRole") == undefined ? (
