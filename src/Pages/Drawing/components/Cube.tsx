@@ -15,6 +15,7 @@ import { ConvexGeometry } from "three/examples/jsm/geometries/ConvexGeometry";
 
 export interface CanShowAlert {
   showAlert(title: string, availableInGallary: boolean): void;
+  clearAdded(): void;
 }
 
 interface CubeProps {
@@ -81,6 +82,16 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
           alert(e.message);
         });
     },
+    clearAdded() {
+      while (true) {
+        var o = scene.getObjectByName("new");
+        if (o != undefined) {
+          scene.remove(o);
+        } else {
+          break;
+        }
+      }
+    },
   }));
 
   function pointDown(event: ThreeEvent<PointerEvent>) {
@@ -130,6 +141,7 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
       point.position.x = onePointMas[0].point.x;
       point.position.y = onePointMas[0].point.y;
       point.position.z = onePointMas[0].point.z;
+      point.name = "new";
       scene.add(point);
       onePointMas.pop();
     }
@@ -143,6 +155,7 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
         point.position.x = firstPointMas[0].point.x;
         point.position.y = firstPointMas[0].point.y;
         point.position.z = firstPointMas[0].point.z;
+        point.name = "new";
         scene.add(point);
       }
       if (firstPointMas.length == 1 && secondPointMas.length == 1) {
@@ -154,6 +167,7 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
         point.position.x = secondPointMas[0].point.x;
         point.position.y = secondPointMas[0].point.y;
         point.position.z = secondPointMas[0].point.z;
+        point.name = "new";
         scene.add(point);
 
         var pointMas = new Array<THREE.Vector3>();
@@ -165,6 +179,7 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
           linewidth: 10,
         });
         const line = new THREE.Line(geometry2, material2);
+        line.name = "new";
         scene.add(line);
 
         firstPointMas.pop();
@@ -184,6 +199,7 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
       point.position.x = planePointMas[planePointMas.length - 1].point.x;
       point.position.y = planePointMas[planePointMas.length - 1].point.y;
       point.position.z = planePointMas[planePointMas.length - 1].point.z;
+      point.name = "new";
       scene.add(point);
 
       if (planePointMas.length > 1) {
@@ -196,6 +212,7 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
           linewidth: 10,
         });
         const line = new THREE.Line(geometry2, material2);
+        line.name = "new";
         scene.add(line);
 
         var firstPlanePoint = planePointMas[0];
@@ -229,7 +246,7 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
 
           plane.renderOrder = -1;
           plane.updateMatrixWorld();
-          plane.name = "plane";
+          plane.name = "new";
           scene.add(plane);
 
           setPlanePointMas([]);

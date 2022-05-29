@@ -39,6 +39,7 @@ interface DrawingProps {}
 
 interface CanShowAlert {
   showAlert(title: string, availableInGallary: boolean): void;
+  clearAdded(): void;
 }
 
 const Drawing: FC<DrawingProps> = (props) => {
@@ -80,6 +81,7 @@ const Drawing: FC<DrawingProps> = (props) => {
                   <Button
                     onClick={() => {
                       setSelecId(1);
+                      cubeRef.current?.clearAdded();
                     }}
                     variant="primary"
                   >
@@ -98,6 +100,7 @@ const Drawing: FC<DrawingProps> = (props) => {
                   <Button
                     onClick={() => {
                       setSelecId(6);
+                      cubeRef.current?.clearAdded();
                     }}
                     variant="primary"
                   >
