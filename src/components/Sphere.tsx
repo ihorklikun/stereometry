@@ -62,7 +62,7 @@ const Sphere: FC<SphereProps> = (props) => {
         onPointerOver={(event) => hover(true)}
         onPointerOut={(event) => hover(false)}
       >
-        <sphereGeometry args={props.args} />
+        <sphereBufferGeometry args={props.args} />
         <meshPhongMaterial
           wireframe={props.isWireframe}
           color={hovered ? "red" : props.color}

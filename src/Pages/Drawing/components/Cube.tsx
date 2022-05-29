@@ -34,7 +34,6 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
   const cube = useRef<THREE.Mesh>(null);
   const scene = useThree((state) => state.scene);
   const renderer = useThree((state) => state.gl);
-  const [eventNumber, setEventNumber] = useState(1);
 
   const [firstPointMas, setFirstPointMas] = useState<
     Array<ThreeEvent<PointerEvent>>
@@ -44,6 +43,14 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
   >([]);
 
   const [onePointMas, setOnePointMas] = useState<
+    Array<ThreeEvent<PointerEvent>>
+  >([]);
+
+  const [planePointMas, setPlanePointMas] = useState<
+    Array<ThreeEvent<PointerEvent>>
+  >([]);
+
+  const [planeTempPointMas, setPlaneTempPointMas] = useState<
     Array<ThreeEvent<PointerEvent>>
   >([]);
 
@@ -62,6 +69,7 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
 
   useImperativeHandle(ref, () => ({
     showAlert(title: string, availableInGallary: boolean) {
+      scene.updateMatrixWorld();
       const json = {
         title: title,
         json: JSON.stringify(scene.toJSON()),
@@ -118,6 +126,30 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
           secondPointMas.push(event);
         }
       }
+    }
+    if (props.eventNumber == "3") {
+      if (planeTempPointMas.length == 0) {
+        planeTempPointMas.push(event);
+      } else {
+        planeTempPointMas.pop();
+        planeTempPointMas.push(event);
+      }
+
+      //   const points = [];
+      //   points.push(new THREE.Vector3(-100.5, 100.5, -100.5));
+      //   points.push(new THREE.Vector3(-100.5, -100.5, -100.5));
+      //   points.push(new THREE.Vector3(100.5, 100.5, 100.5));
+      //   points.push(new THREE.Vector3(100.5, -100.5, 100.5));
+      //   const geometry = new THREE.PlaneBufferGeometry().setFromPoints(points);
+      //   var material = new THREE.MeshBasicMaterial({
+      //     color: 0xff0000,
+      //     opacity: 0.5,
+      //     transparent: true,
+      //     side: THREE.DoubleSide,
+      //   });
+      //   var plane = new THREE.Mesh(geometry, material);
+      //   plane.renderOrder = -1;
+      //   scene.add(plane);
     }
   }
 
@@ -177,6 +209,72 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
               secondPointMas.pop();
             }
           }
+          if (props.eventNumber == "3" && planeTempPointMas.length == 1) {
+            planePointMas.push(planeTempPointMas[0]);
+            planeTempPointMas.pop();
+            console.log(planePointMas);
+
+            var geometry = new THREE.SphereBufferGeometry(0.1, 32);
+            var material = new THREE.MeshBasicMaterial({
+              color: 0xff0000,
+            });
+            var point = new THREE.Mesh(geometry, material);
+            point.position.x = planePointMas[planePointMas.length - 1].point.x;
+            point.position.y = planePointMas[planePointMas.length - 1].point.y;
+            point.position.z = planePointMas[planePointMas.length - 1].point.z;
+            scene.add(point);
+
+            if (planePointMas.length > 1) {
+              var pointMas = new Array<THREE.Vector3>();
+              pointMas.push(planePointMas[planePointMas.length - 1].point);
+              pointMas.push(planePointMas[planePointMas.length - 2].point);
+              var geometry2 = new THREE.BufferGeometry().setFromPoints(
+                pointMas
+              );
+              var material2 = new THREE.LineBasicMaterial({
+                color: 0xff0000,
+                linewidth: 10,
+              });
+              const line = new THREE.Line(geometry2, material2);
+              scene.add(line);
+
+              var firstPlanePoint = planePointMas[0];
+              var lastPlanePoint = planePointMas[planePointMas.length - 1];
+
+              console.log(firstPlanePoint.point);
+              console.log(lastPlanePoint.point);
+              if (
+                firstPlanePoint.point.x.toFixed(1) ==
+                  lastPlanePoint.point.x.toFixed(1) &&
+                firstPlanePoint.point.y.toFixed(1) ==
+                  lastPlanePoint.point.y.toFixed(1) &&
+                firstPlanePoint.point.z.toFixed(1) ==
+                  lastPlanePoint.point.z.toFixed(1)
+              ) {
+                alert("last point");
+                const points = new Array<THREE.Vector3>();
+                planePointMas.forEach((e) => {
+                  points.push(e.point);
+                });
+                const geometry = new THREE.BufferGeometry().setFromPoints(
+                  points
+                );
+                var material = new THREE.MeshBasicMaterial({
+                  color: 0xff0000,
+                  opacity: 0.5,
+                  transparent: true,
+                  side: THREE.DoubleSide,
+                });
+                var plane = new THREE.Mesh(geometry, material);
+                plane.renderOrder = -1;
+                plane.updateMatrixWorld();
+                plane.name = "plane";
+                scene.add(plane);
+
+                setPlanePointMas([]);
+              }
+            }
+          }
         }}
         onPointerDown={(e) => {
           pointDown(e);
@@ -215,7 +313,7 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
         scale={1}
         onClick={(event) => click(!clicked)}
       >
-        <boxGeometry args={props.args} />
+        <boxBufferGeometry args={props.args} />
         <meshPhongMaterial
           wireframe={props.isWireframe}
           color={props.color}

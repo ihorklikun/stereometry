@@ -14,6 +14,7 @@ const ShapeItem: FC<ShapeItemProps> = (props) => {
     console.log(props.json);
     var obj = JSON.parse(props.json);
     const object = loader.parse(obj);
+    scene.updateMatrixWorld();
     scene.add(object);
   }, []);
 
