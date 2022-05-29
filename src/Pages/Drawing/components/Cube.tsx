@@ -11,6 +11,7 @@ import Sphere from "../../../components/Sphere";
 import Cylinder from "../../../components/Cylinder";
 import { ThreeEvent, useFrame, useThree, Vector3 } from "@react-three/fiber";
 import axios from "axios";
+import { ConvexGeometry } from "three/examples/jsm/geometries/ConvexGeometry";
 
 export interface CanShowAlert {
   showAlert(title: string, availableInGallary: boolean): void;
@@ -134,22 +135,144 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
         planeTempPointMas.pop();
         planeTempPointMas.push(event);
       }
+    }
+  }
 
-      //   const points = [];
-      //   points.push(new THREE.Vector3(-100.5, 100.5, -100.5));
-      //   points.push(new THREE.Vector3(-100.5, -100.5, -100.5));
-      //   points.push(new THREE.Vector3(100.5, 100.5, 100.5));
-      //   points.push(new THREE.Vector3(100.5, -100.5, 100.5));
-      //   const geometry = new THREE.PlaneBufferGeometry().setFromPoints(points);
-      //   var material = new THREE.MeshBasicMaterial({
+  function pointUp(event: ThreeEvent<PointerEvent>) {
+    if (props.eventNumber == "1" && onePointMas.length == 1) {
+      //   const points = Array<THREE.Vector3>();
+      //   points.push(new THREE.Vector3(-1.5, -1.5, -1.5));
+      //   points.push(new THREE.Vector3(-1.5, 1.5, -1.5));
+      //   points.push(new THREE.Vector3(1.5, 1.5, 1.5));
+      //   points.push(new THREE.Vector3(1.5, -1.5, 1.5));
+      //   points.push(new THREE.Vector3(-1.5, -1.5, -1.5));
+
+      //   const geometry3 = new ConvexGeometry(points); //.setFromPoints(points);
+      //   var material3 = new THREE.MeshBasicMaterial({
       //     color: 0xff0000,
       //     opacity: 0.5,
       //     transparent: true,
       //     side: THREE.DoubleSide,
       //   });
-      //   var plane = new THREE.Mesh(geometry, material);
+
+      //   var plane = new THREE.Mesh(geometry3, material3);
+
       //   plane.renderOrder = -1;
       //   scene.add(plane);
+
+      var geometry = new THREE.SphereGeometry(0.1, 32);
+      var material = new THREE.MeshBasicMaterial({
+        color: 0xff0000,
+      });
+      var point = new THREE.Mesh(geometry, material);
+      point.position.x = onePointMas[0].point.x;
+      point.position.y = onePointMas[0].point.y;
+      point.position.z = onePointMas[0].point.z;
+      scene.add(point);
+      onePointMas.pop();
+    }
+    if (props.eventNumber == "2") {
+      if (firstPointMas.length == 1 && secondPointMas.length == 0) {
+        var geometry = new THREE.SphereGeometry(0.1, 32);
+        var material = new THREE.MeshBasicMaterial({
+          color: 0xff0000,
+        });
+        var point = new THREE.Mesh(geometry, material);
+        point.position.x = firstPointMas[0].point.x;
+        point.position.y = firstPointMas[0].point.y;
+        point.position.z = firstPointMas[0].point.z;
+        scene.add(point);
+      }
+      if (firstPointMas.length == 1 && secondPointMas.length == 1) {
+        var geometry = new THREE.SphereGeometry(0.1, 32);
+        var material = new THREE.MeshBasicMaterial({
+          color: 0xff0000,
+        });
+        var point = new THREE.Mesh(geometry, material);
+        point.position.x = secondPointMas[0].point.x;
+        point.position.y = secondPointMas[0].point.y;
+        point.position.z = secondPointMas[0].point.z;
+        scene.add(point);
+
+        var pointMas = new Array<THREE.Vector3>();
+        pointMas.push(firstPointMas[0].point);
+        pointMas.push(secondPointMas[0].point);
+        var geometry2 = new THREE.BufferGeometry().setFromPoints(pointMas);
+        var material2 = new THREE.LineBasicMaterial({
+          color: 0xff0000,
+          linewidth: 10,
+        });
+        const line = new THREE.Line(geometry2, material2);
+        scene.add(line);
+
+        firstPointMas.pop();
+        secondPointMas.pop();
+      }
+    }
+    if (props.eventNumber == "3" && planeTempPointMas.length == 1) {
+      planePointMas.push(planeTempPointMas[0]);
+      planeTempPointMas.pop();
+      console.log(planePointMas);
+
+      var geometry = new THREE.SphereBufferGeometry(0.1, 32);
+      var material = new THREE.MeshBasicMaterial({
+        color: 0xff0000,
+      });
+      var point = new THREE.Mesh(geometry, material);
+      point.position.x = planePointMas[planePointMas.length - 1].point.x;
+      point.position.y = planePointMas[planePointMas.length - 1].point.y;
+      point.position.z = planePointMas[planePointMas.length - 1].point.z;
+      scene.add(point);
+
+      if (planePointMas.length > 1) {
+        var pointMas = new Array<THREE.Vector3>();
+        pointMas.push(planePointMas[planePointMas.length - 1].point);
+        pointMas.push(planePointMas[planePointMas.length - 2].point);
+        var geometry2 = new THREE.BufferGeometry().setFromPoints(pointMas);
+        var material2 = new THREE.LineBasicMaterial({
+          color: 0xff0000,
+          linewidth: 10,
+        });
+        const line = new THREE.Line(geometry2, material2);
+        scene.add(line);
+
+        var firstPlanePoint = planePointMas[0];
+        var lastPlanePoint = planePointMas[planePointMas.length - 1];
+
+        console.log(firstPlanePoint.point);
+        console.log(lastPlanePoint.point);
+        if (
+          firstPlanePoint.point.x.toFixed(1) ==
+            lastPlanePoint.point.x.toFixed(1) &&
+          firstPlanePoint.point.y.toFixed(1) ==
+            lastPlanePoint.point.y.toFixed(1) &&
+          firstPlanePoint.point.z.toFixed(1) ==
+            lastPlanePoint.point.z.toFixed(1)
+        ) {
+          alert("last point");
+          const points = new Array<THREE.Vector3>();
+          planePointMas.forEach((e) => {
+            points.push(e.point);
+          });
+
+          const geometry = new ConvexGeometry(points);
+          var material = new THREE.MeshBasicMaterial({
+            color: 0xff0000,
+            opacity: 0.5,
+            transparent: true,
+            side: THREE.DoubleSide,
+          });
+
+          var plane = new THREE.Mesh(geometry, material);
+
+          plane.renderOrder = -1;
+          plane.updateMatrixWorld();
+          plane.name = "plane";
+          scene.add(plane);
+
+          setPlanePointMas([]);
+        }
+      }
     }
   }
 
@@ -157,156 +280,10 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
     <>
       <mesh
         onPointerUp={(e) => {
-          if (props.eventNumber == "1" && onePointMas.length == 1) {
-            var geometry = new THREE.SphereGeometry(0.1, 32);
-            var material = new THREE.MeshBasicMaterial({
-              color: 0xff0000,
-            });
-            var point = new THREE.Mesh(geometry, material);
-            point.position.x = onePointMas[0].point.x;
-            point.position.y = onePointMas[0].point.y;
-            point.position.z = onePointMas[0].point.z;
-            scene.add(point);
-            onePointMas.pop();
-          }
-          if (props.eventNumber == "2") {
-            if (firstPointMas.length == 1 && secondPointMas.length == 0) {
-              var geometry = new THREE.SphereGeometry(0.1, 32);
-              var material = new THREE.MeshBasicMaterial({
-                color: 0xff0000,
-              });
-              var point = new THREE.Mesh(geometry, material);
-              point.position.x = firstPointMas[0].point.x;
-              point.position.y = firstPointMas[0].point.y;
-              point.position.z = firstPointMas[0].point.z;
-              scene.add(point);
-            }
-            if (firstPointMas.length == 1 && secondPointMas.length == 1) {
-              var geometry = new THREE.SphereGeometry(0.1, 32);
-              var material = new THREE.MeshBasicMaterial({
-                color: 0xff0000,
-              });
-              var point = new THREE.Mesh(geometry, material);
-              point.position.x = secondPointMas[0].point.x;
-              point.position.y = secondPointMas[0].point.y;
-              point.position.z = secondPointMas[0].point.z;
-              scene.add(point);
-
-              var pointMas = new Array<THREE.Vector3>();
-              pointMas.push(firstPointMas[0].point);
-              pointMas.push(secondPointMas[0].point);
-              var geometry2 = new THREE.BufferGeometry().setFromPoints(
-                pointMas
-              );
-              var material2 = new THREE.LineBasicMaterial({
-                color: 0xff0000,
-                linewidth: 10,
-              });
-              const line = new THREE.Line(geometry2, material2);
-              scene.add(line);
-
-              firstPointMas.pop();
-              secondPointMas.pop();
-            }
-          }
-          if (props.eventNumber == "3" && planeTempPointMas.length == 1) {
-            planePointMas.push(planeTempPointMas[0]);
-            planeTempPointMas.pop();
-            console.log(planePointMas);
-
-            var geometry = new THREE.SphereBufferGeometry(0.1, 32);
-            var material = new THREE.MeshBasicMaterial({
-              color: 0xff0000,
-            });
-            var point = new THREE.Mesh(geometry, material);
-            point.position.x = planePointMas[planePointMas.length - 1].point.x;
-            point.position.y = planePointMas[planePointMas.length - 1].point.y;
-            point.position.z = planePointMas[planePointMas.length - 1].point.z;
-            scene.add(point);
-
-            if (planePointMas.length > 1) {
-              var pointMas = new Array<THREE.Vector3>();
-              pointMas.push(planePointMas[planePointMas.length - 1].point);
-              pointMas.push(planePointMas[planePointMas.length - 2].point);
-              var geometry2 = new THREE.BufferGeometry().setFromPoints(
-                pointMas
-              );
-              var material2 = new THREE.LineBasicMaterial({
-                color: 0xff0000,
-                linewidth: 10,
-              });
-              const line = new THREE.Line(geometry2, material2);
-              scene.add(line);
-
-              var firstPlanePoint = planePointMas[0];
-              var lastPlanePoint = planePointMas[planePointMas.length - 1];
-
-              console.log(firstPlanePoint.point);
-              console.log(lastPlanePoint.point);
-              if (
-                firstPlanePoint.point.x.toFixed(1) ==
-                  lastPlanePoint.point.x.toFixed(1) &&
-                firstPlanePoint.point.y.toFixed(1) ==
-                  lastPlanePoint.point.y.toFixed(1) &&
-                firstPlanePoint.point.z.toFixed(1) ==
-                  lastPlanePoint.point.z.toFixed(1)
-              ) {
-                alert("last point");
-                const points = new Array<THREE.Vector3>();
-                planePointMas.forEach((e) => {
-                  points.push(e.point);
-                });
-                const geometry = new THREE.BufferGeometry().setFromPoints(
-                  points
-                );
-                var material = new THREE.MeshBasicMaterial({
-                  color: 0xff0000,
-                  opacity: 0.5,
-                  transparent: true,
-                  side: THREE.DoubleSide,
-                });
-                var plane = new THREE.Mesh(geometry, material);
-                plane.renderOrder = -1;
-                plane.updateMatrixWorld();
-                plane.name = "plane";
-                scene.add(plane);
-
-                setPlanePointMas([]);
-              }
-            }
-          }
+          pointUp(e);
         }}
         onPointerDown={(e) => {
           pointDown(e);
-          //   var geometry = new THREE.SphereGeometry(0.1, 32);
-          //   var material = new THREE.MeshBasicMaterial({
-          //     color: 0xff0000,
-          //   });
-          //   var point = new THREE.Mesh(geometry, material);
-          //   point.position.x = e.point.x;
-          //   point.position.y = e.point.y;
-          //   point.position.z = e.point.z;
-          //   scene.add(point);
-          //   pointMas.push(point.position);
-
-          //   const points = [];
-          //   points.push(new THREE.Vector3(-10, 0, 0));
-          //   points.push(new THREE.Vector3(0, 10, 0));
-
-          //   if (pointMas.length == 2) {
-          //     var geometry2 = new THREE.BufferGeometry().setFromPoints(pointMas);
-          //     var material2 = new THREE.LineBasicMaterial({
-          //       color: 0xff0000,
-          //       linewidth: 10,
-          //     });
-          //     const line = new THREE.Line(geometry2, material2);
-          //     scene.add(line);
-          //     setPointMas([]);
-          //   }
-
-          //geometry = new THREE.CylinderGeometry(0.1,0.1)
-
-          //console.log(pointMas);
         }}
         ref={cube}
         position={props.position}
@@ -319,10 +296,7 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
           color={props.color}
           transparent={props.isTransparent}
           opacity={props.isTransparent ? 0.5 : 1}
-          //depthTest={props.isTransparent ? false : true}
-          //depthWrite={props.isTransparent ? false : true}
           side={THREE.DoubleSide}
-          //alphaTest = {0.5}
         />
 
         {props.isRVisible == true && (
