@@ -41,26 +41,24 @@ const Cube: FC<CubeProps> = (props) => {
 
   return (
     <mesh
-      onPointerDown={(e) => {
-        var o = new THREE.CylinderGeometry();
+      // onPointerDown={(e) => {
+      //   var o = new THREE.CylinderGeometry();
 
-        const object = loader.parse(scene.toJSON());
-        scene.clear();
-        //console.log(scene.toJSON());
-        scene.add(object);
-        //console.log(e.point);
-      }}
+      //   const object = loader.parse(scene.toJSON());
+      //   scene.clear();
+      //   //console.log(scene.toJSON());
+      //   scene.add(object);
+      //   //console.log(e.point);
+      // }}
       ref={cube}
       position={props.position}
-      scale={clicked ? 1.5 : 1}
+      scale={1}
       onClick={(event) => click(!clicked)}
-      onPointerOver={(event) => hover(true)}
-      onPointerOut={(event) => hover(false)}
     >
       <boxGeometry args={props.args} />
       <meshPhongMaterial
         wireframe={props.isWireframe}
-        color={hovered ? "red" : props.color}
+        color={props.color}
         transparent={props.isTransparent}
         opacity={props.isTransparent ? 0.5 : 1}
         //depthTest={props.isTransparent ? false : true}

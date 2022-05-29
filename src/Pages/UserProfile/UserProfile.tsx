@@ -208,6 +208,10 @@ const UserProfile: FC<UserProfileProps> = (props) => {
         });
     }
   }
+
+  function displayShape(shape: userShapesProps) {
+    window.open("http://localhost:3000/galery?id=" + shape.id);
+  }
   return (
     <>
       <Row className="justify-content-md-center tab-container">
@@ -321,7 +325,7 @@ const UserProfile: FC<UserProfileProps> = (props) => {
                 <>
                   <Row>
                     {userShapes.map((shape: userShapesProps) => (
-                      <Col key={shape.id} lg = "3">
+                      <Col key={shape.id} lg="3">
                         <Card style={{ width: "18rem", maxWidth: "350px" }}>
                           <Card.Body>
                             <Card.Title>{shape.title}</Card.Title>
@@ -332,7 +336,7 @@ const UserProfile: FC<UserProfileProps> = (props) => {
                             <Button
                               style={{ marginRight: "10px" }}
                               onClick={() => {
-                                alert(shape.id);
+                                displayShape(shape);
                               }}
                               variant="success"
                             >

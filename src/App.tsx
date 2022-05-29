@@ -11,6 +11,8 @@ import Header from "../src/components/Header";
 import Home from "../src/Pages/Home/Home";
 import Learning from "../src/Pages/Learning/Learning";
 import UserProfile from "./Pages/UserProfile/UserProfile";
+import Drawing from "./Pages/Drawing/Drawing";
+import SavedShape from "./Pages/SavedShape/SavedShape";
 
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
@@ -24,12 +26,15 @@ export default function App() {
       <BrowserRouter>
         <Header></Header>
         <Routes>
+          <Route path="/" element={<Home></Home>}></Route>
           <Route path="/learning" element={<Learning></Learning>}></Route>
           <Route path="/home" element={<Home></Home>}></Route>
           <Route
             path="/user-profile"
             element={<UserProfile></UserProfile>}
           ></Route>
+          <Route path="/drawing" element={<Drawing></Drawing>}></Route>
+          <Route path="/galery" element={<SavedShape></SavedShape>}></Route>
         </Routes>
       </BrowserRouter>
     </>
