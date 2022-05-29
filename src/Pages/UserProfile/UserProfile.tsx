@@ -98,7 +98,8 @@ const UserProfile: FC<UserProfileProps> = (props) => {
     const time = dateMas[1].slice(0, 5);
     const date = dateMas[0];
 
-    return `Date: ${date} Time: ${time}`;
+    const dateSplited = date.split("-")
+    return `${time} ${dateSplited[2]}-${dateSplited[1]}-${dateSplited[0]} `;
   }
 
   function changeAvailableInGallary(id: string, currentState: boolean) {
@@ -326,15 +327,30 @@ const UserProfile: FC<UserProfileProps> = (props) => {
                   <Row>
                     {userShapes.map((shape: userShapesProps) => (
                       <Col key={shape.id} lg="3">
-                        <Card style={{ width: "18rem", maxWidth: "350px" }}>
+                        <Card
+                          style={{
+                            width: "18rem",
+                            maxWidth: "350px",
+                            marginBottom: "20px",
+                          }}
+                        >
                           <Card.Body>
                             <Card.Title>{shape.title}</Card.Title>
-                            <p>{formatDateTime(shape.addedDateTime)}</p>
-                            <p>{formatDateTime(shape.updatedDateTime)}</p>
-                            <p>{`${shape.isAvailableInGallary}`}</p>
+                            <p>{"Added at " + formatDateTime(shape.addedDateTime)}</p>
+                            <p>
+                              {shape.isAvailableInGallary ? (
+                                <>Avaible in public gallary</>
+                              ) : (
+                                <>Avaible only in your gallary</>
+                              )}
+                            </p>
 
                             <Button
-                              style={{ marginRight: "10px" }}
+                              style={{
+                                marginRight: "10px",
+                                marginTop: "10px",
+                                width: "250px",
+                              }}
                               onClick={() => {
                                 displayShape(shape);
                               }}
@@ -343,13 +359,7 @@ const UserProfile: FC<UserProfileProps> = (props) => {
                               Display
                             </Button>
                             <Button
-                              style={{ marginRight: "10px" }}
-                              variant="warning"
-                              onClick={() => {}}
-                            >
-                              Change
-                            </Button>
-                            <Button
+                              style={{ marginTop: "10px", width: "250px" }}
                               variant="danger"
                               onClick={() => {
                                 deleteShapeFromUserGallary(shape.id);
