@@ -15,6 +15,8 @@ interface CylinderProps {
   isInner?: boolean;
   isTopsVisible?: boolean;
   isBorderVisible?: boolean;
+  bordersColor?: string;
+  dotsColor?: string;
 }
 
 const Cylinder: FC<CylinderProps> = (props) => {
@@ -39,20 +41,36 @@ const Cylinder: FC<CylinderProps> = (props) => {
     <>
       {props.isInner == false && (
         <>
-          {props.isBorderVisible == false && (
+          {props.isBorderVisible && (
             <>
               <Torus
                 args={[2, 0.05, 30, 100]}
                 position={[0, 3 / 2, 0]}
-                color={"red"}
+                color={props.bordersColor ? props.bordersColor : "red"}
                 rotationX={Math.PI / 2}
               ></Torus>
               <Torus
                 args={[2, 0.05, 30, 100]}
                 position={[0, -3 / 2, 0]}
-                color={"red"}
+                color={props.bordersColor ? props.bordersColor : "red"}
                 rotationX={Math.PI / 2}
               ></Torus>
+
+              <mesh position={props.position}>
+                <cylinderBufferGeometry args={[0.08, 0.08, 3, 32]} />
+                <meshBasicMaterial
+                  color={props.bordersColor ? props.bordersColor : "red"}
+                  side={THREE.DoubleSide}
+                />
+              </mesh>
+
+              <mesh position={[1, 0, 1.75]}>
+                <cylinderBufferGeometry args={[0.08, 0.08, 3, 32]} />
+                <meshBasicMaterial
+                  color={props.bordersColor ? props.bordersColor : "red"}
+                  side={THREE.DoubleSide}
+                />
+              </mesh>
             </>
           )}
 
@@ -60,21 +78,26 @@ const Cylinder: FC<CylinderProps> = (props) => {
             <>
               <Sphere
                 args={[0.1, 62]}
-                color={"red"}
+                color={props.dotsColor ? props.dotsColor : "red"}
+                position={[1, -3 / 2, 1.75]}
+              ></Sphere>
+              <Sphere
+                args={[0.1, 62]}
+                color={props.dotsColor ? props.dotsColor : "red"}
+                position={[1, 3 / 2, 1.75]}
+              ></Sphere>
+              <Sphere
+                args={[0.1, 62]}
+                color={props.dotsColor ? props.dotsColor : "red"}
                 position={[0, -3 / 2, 0]}
               ></Sphere>
               <Sphere
                 args={[0.1, 62]}
-                color={"red"}
+                color={props.dotsColor ? props.dotsColor : "red"}
                 position={[0, 3 / 2, 0]}
               ></Sphere>
             </>
           )}
-
-          <mesh position={props.position}>
-            <cylinderBufferGeometry args={[0.08, 0.08, 3, 32]} />
-            <meshBasicMaterial color={"red"} side={THREE.DoubleSide} />
-          </mesh>
         </>
       )}
 

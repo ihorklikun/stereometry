@@ -16,6 +16,8 @@ interface ConeProps {
   isWireframe?: boolean;
   isTopsVisible?: boolean;
   isBorderVisible?: boolean;
+  bordersColor?: string;
+  dotsColor?: string;
 }
 
 const Cone: FC<ConeProps> = (props) => {
@@ -26,23 +28,23 @@ const Cone: FC<ConeProps> = (props) => {
           <Torus
             args={[2, 0.03, 30, 100]}
             position={[0, -2, 0]}
-            color={"red"}
+            color={props.bordersColor ? props.bordersColor : "red"}
             rotationX={Math.PI / 2}
           ></Torus>
           <Cylinder
-            color={"red"}
+            color={props.bordersColor ? props.bordersColor : "red"}
             args={[0.03, 0.03, 4, 32]}
             position={[0, -2, 0]}
             rotationZ={Math.PI / 2}
           ></Cylinder>
           <Cylinder
-            color={"red"}
+            color={props.bordersColor ? props.bordersColor : "red"}
             args={[0.03, 0.03, 4, 32]}
             position={[0, 0, 0]}
             //rotationZ={Math.PI / 2}
           ></Cylinder>
           <Cylinder
-            color={"red"}
+            color={props.bordersColor ? props.bordersColor : "red"}
             args={[0.03, 0.03, 4.47, 32]}
             position={[1, 0, 0]}
             rotationZ={2 / Math.sqrt(20) + 0.01}
@@ -51,9 +53,21 @@ const Cone: FC<ConeProps> = (props) => {
       )}
       {props.isTopsVisible && (
         <>
-          <Sphere args={[0.1, 62]} color={"red"} position={[0, -2, 0]}></Sphere>
-          <Sphere args={[0.1, 62]} color={"red"} position={[0, 2, 0]}></Sphere>
-          <Sphere args={[0.1, 62]} color={"red"} position={[2, -2, 0]}></Sphere>
+          <Sphere
+            args={[0.1, 62]}
+            color={props.dotsColor ? props.dotsColor : "red"}
+            position={[0, -2, 0]}
+          ></Sphere>
+          <Sphere
+            args={[0.1, 62]}
+            color={props.dotsColor ? props.dotsColor : "red"}
+            position={[0, 2, 0]}
+          ></Sphere>
+          <Sphere
+            args={[0.1, 62]}
+            color={props.dotsColor ? props.dotsColor : "red"}
+            position={[2, -2, 0]}
+          ></Sphere>
         </>
       )}
       <mesh position={props.position}>

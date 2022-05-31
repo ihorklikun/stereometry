@@ -208,7 +208,7 @@ const Cube = forwardRef<CanShowAlert, CubeProps>((props, ref) => {
       point.position.z = onePointMas[0].point.z;
       point.name = "new";
       scene.add(point);
-      //addTextToPoint(point.position);
+      addTextToPoint(point.position);
       onePointMas.pop();
     }
     if (props.eventNumber == "2") {

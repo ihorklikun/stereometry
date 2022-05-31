@@ -14,6 +14,8 @@ interface CubeProps {
   isTopsVisible?: boolean;
   isRVisible?: boolean;
   refCanvas?: React.MutableRefObject<HTMLCanvasElement | null>;
+  bordersColor?: string;
+  dotsColor?: string;
 }
 
 const Cube: FC<CubeProps> = (props) => {
@@ -77,7 +79,7 @@ const Cube: FC<CubeProps> = (props) => {
               props.args[0] / 2.0,
               props.args[2] / 2.0,
             ]}
-            color="red"
+            color={props.dotsColor ? props.dotsColor : "red"}
           />
           <Sphere
             args={[0.1, 30, 30]}
@@ -87,7 +89,7 @@ const Cube: FC<CubeProps> = (props) => {
               props.args[1] / 2.0,
               props.args[2] / 2.0,
             ]}
-            color="red"
+            color={props.dotsColor ? props.dotsColor : "red"}
           />
           <Sphere
             args={[0.1, 30, 30]}
@@ -97,7 +99,7 @@ const Cube: FC<CubeProps> = (props) => {
               props.args[1] / -2.0,
               props.args[2] / 2.0,
             ]}
-            color="red"
+            color={props.dotsColor ? props.dotsColor : "red"}
           />
           <Sphere
             args={[0.1, 30, 30]}
@@ -107,7 +109,7 @@ const Cube: FC<CubeProps> = (props) => {
               props.args[1] / 2.0,
               props.args[2] / -2.0,
             ]}
-            color="red"
+            color={props.dotsColor ? props.dotsColor : "red"}
           />
           <Sphere
             args={[0.1, 30, 30]}
@@ -117,7 +119,7 @@ const Cube: FC<CubeProps> = (props) => {
               props.args[1] / -2.0,
               props.args[2] / 2.0,
             ]}
-            color="red"
+            color={props.dotsColor ? props.dotsColor : "red"}
           />
           <Sphere
             args={[0.1, 30, 30]}
@@ -127,7 +129,7 @@ const Cube: FC<CubeProps> = (props) => {
               props.args[1] / -2.0,
               props.args[2] / -2.0,
             ]}
-            color="red"
+            color={props.dotsColor ? props.dotsColor : "red"}
           />
           <Sphere
             args={[0.1, 30, 30]}
@@ -137,7 +139,7 @@ const Cube: FC<CubeProps> = (props) => {
               props.args[1] / -2.0,
               props.args[2] / -2.0,
             ]}
-            color="red"
+            color={props.dotsColor ? props.dotsColor : "red"}
           />
           <Sphere
             args={[0.1, 30, 30]}
@@ -147,7 +149,7 @@ const Cube: FC<CubeProps> = (props) => {
               props.args[1] / 2.0,
               props.args[2] / -2.0,
             ]}
-            color="red"
+            color={props.dotsColor ? props.dotsColor : "red"}
           />
         </>
       )}
@@ -155,80 +157,80 @@ const Cube: FC<CubeProps> = (props) => {
       {props.isRVisible == true && (
         <>
           <Cylinder
-            color={"red"}
+            color={props.bordersColor ? props.bordersColor : "red"}
             args={[0.04, 0.04, 3, 32]}
             position={[3 / 2, 3 / 2, 0]}
             rotationX={Math.PI / 2}
           ></Cylinder>
           <Cylinder
-            color={"red"}
+            color={props.bordersColor ? props.bordersColor : "red"}
             args={[0.04, 0.04, 3, 32]}
             position={[-3 / 2, 3 / 2, 0]}
             rotationX={Math.PI / 2}
           ></Cylinder>
           <Cylinder
-            color={"red"}
+            color={props.bordersColor ? props.bordersColor : "red"}
             args={[0.04, 0.04, 3, 32]}
             position={[3 / 2, -3 / 2, 0]}
             rotationX={Math.PI / 2}
           ></Cylinder>
           <Cylinder
-            color={"red"}
+            color={props.bordersColor ? props.bordersColor : "red"}
             args={[0.04, 0.04, 3, 32]}
             position={[-3 / 2, -3 / 2, 0]}
             rotationX={Math.PI / 2}
           ></Cylinder>
           <Cylinder
-            color={"red"}
+            color={props.bordersColor ? props.bordersColor : "red"}
             args={[0.04, 0.04, 3, 32]}
             position={[0, 3 / 2, 3 / 2]}
             rotationX={Math.PI / 2}
             rotationZ={Math.PI / 2}
           ></Cylinder>
           <Cylinder
-            color={"red"}
+            color={props.bordersColor ? props.bordersColor : "red"}
             args={[0.04, 0.04, 3, 32]}
             position={[0, 3 / 2, -3 / 2]}
             rotationX={Math.PI / 2}
             rotationZ={Math.PI / 2}
           ></Cylinder>
           <Cylinder
-            color={"red"}
+            color={props.bordersColor ? props.bordersColor : "red"}
             args={[0.04, 0.04, 3, 32]}
             position={[0, -3 / 2, -3 / 2]}
             rotationX={Math.PI / 2}
             rotationZ={Math.PI / 2}
           ></Cylinder>
           <Cylinder
-            color={"red"}
+            color={props.bordersColor ? props.bordersColor : "red"}
             args={[0.04, 0.04, 3, 32]}
             position={[0, -3 / 2, 3 / 2]}
             rotationX={Math.PI / 2}
             rotationZ={Math.PI / 2}
           ></Cylinder>
           <Cylinder
-            color={"red"}
+            color={props.bordersColor ? props.bordersColor : "red"}
             args={[0.04, 0.04, 3, 32]}
             position={[3 / 2, 0, 3 / 2]}
             rotationX={0}
             rotationZ={0}
           ></Cylinder>
           <Cylinder
-            color={"red"}
+            color={props.bordersColor ? props.bordersColor : "red"}
             args={[0.04, 0.04, 3, 32]}
             position={[-3 / 2, 0, 3 / 2]}
             rotationX={0}
             rotationZ={0}
           ></Cylinder>
           <Cylinder
-            color={"red"}
+            color={props.bordersColor ? props.bordersColor : "red"}
             args={[0.04, 0.04, 3, 32]}
             position={[3 / 2, 0, -3 / 2]}
             rotationX={0}
             rotationZ={0}
           ></Cylinder>
           <Cylinder
-            color={"red"}
+            color={props.bordersColor ? props.bordersColor : "red"}
             args={[0.04, 0.04, 3, 32]}
             position={[-3 / 2, 0, -3 / 2]}
             rotationX={0}

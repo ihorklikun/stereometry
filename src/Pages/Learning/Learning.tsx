@@ -8,7 +8,15 @@ import Cylinder from "../../components/Cylinder";
 import Cone from "../../components/Cone";
 import { Color } from "three";
 import * as THREE from "three";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Button,
+  ButtonGroup,
+  ToggleButton,
+} from "react-bootstrap";
 import "./Learning.css";
 import ScrollArea from "react-scrollbar";
 import img from "../../assets/test.png";
@@ -34,7 +42,14 @@ const Learning: FC<LearningProps> = (props) => {
   const [isTopVisible, setTopVisible] = useState(false);
   const [isRVisible, setRVisible] = useState(false);
   const [selectedColor, setColor] = useState("blue");
-
+  const [selectedDotsColor, setDotsColor] = useState("red");
+  const [selectedBorderColor, setBorderColor] = useState("red");
+  const [radioValue, setRadioValue] = useState("1");
+  const radios = [
+    { name: "Shape", value: "1" },
+    { name: "Borders", value: "2" },
+    { name: "Dots", value: "3" },
+  ];
   return (
     <>
       <Menu>
@@ -139,7 +154,9 @@ const Learning: FC<LearningProps> = (props) => {
               <pointLight position={[-10, -10, -10]}></pointLight>
               {selectId == 1 ? (
                 <Cube
-                refCanvas={myRef}
+                  bordersColor={selectedBorderColor}
+                  dotsColor={selectedDotsColor}
+                  refCanvas={myRef}
                   isRVisible={isRVisible}
                   isTopsVisible={isTopVisible}
                   isWireframe={isWireframe}
@@ -153,6 +170,8 @@ const Learning: FC<LearningProps> = (props) => {
               )}
               {selectId == 2 ? (
                 <Sphere
+                  bordersColor={selectedBorderColor}
+                  dotsColor={selectedDotsColor}
                   isBorderVisible={isRVisible}
                   isTopsVisible={isTopVisible}
                   isCenterEnabled
@@ -167,6 +186,8 @@ const Learning: FC<LearningProps> = (props) => {
               )}
               {selectId == 3 ? (
                 <Cylinder
+                  bordersColor={selectedBorderColor}
+                  dotsColor={selectedDotsColor}
                   isTopsVisible={isTopVisible}
                   isWireframe={isWireframe}
                   args={[2, 2, 3, 32]}
@@ -181,6 +202,8 @@ const Learning: FC<LearningProps> = (props) => {
               )}
               {selectId == 4 ? (
                 <Cone
+                  bordersColor={selectedBorderColor}
+                  dotsColor={selectedDotsColor}
                   isBorderVisible={isRVisible}
                   isTopsVisible={isTopVisible}
                   isWireframe={isWireframe}
@@ -262,12 +285,34 @@ const Learning: FC<LearningProps> = (props) => {
                   Set Borders
                 </Button>
               </div>
-
+              <ButtonGroup className="radio-buttons-container">
+                {radios.map((radio, idx) => (
+                  <ToggleButton
+                    key={idx}
+                    id={`radio-${idx}`}
+                    type="radio"
+                    variant={"outline-success"}
+                    name="radio"
+                    value={radio.value}
+                    checked={radioValue === radio.value}
+                    onChange={(e) => setRadioValue(e.currentTarget.value)}
+                  >
+                    {radio.name}
+                  </ToggleButton>
+                ))}
+              </ButtonGroup>
               <CirclePicker
                 className="picker-wrapper"
                 onChangeComplete={(color) => {
-                  setColor(color.hex);
-                  console.log(selectedColor);
+                  if (radioValue == "1") {
+                    setColor(color.hex);
+                  }
+                  if (radioValue == "2") {
+                    setBorderColor(color.hex);
+                  }
+                  if (radioValue == "3") {
+                    setDotsColor(color.hex);
+                  }
                 }}
                 width="800px"
               />

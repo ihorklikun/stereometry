@@ -3,8 +3,13 @@
 }
 
 .row-canvas-container{
-    height: 80%;
+    height: 75%;
     margin: 30px;
+}
+
+.radio-buttons-container{
+  display: flex;
+  margin-bottom: 20px;
 }
 
 .top-header{

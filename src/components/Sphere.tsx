@@ -12,6 +12,8 @@ interface SphereProps {
   isCenterEnabled?: boolean;
   isBorderVisible?: boolean;
   isTopsVisible?: boolean;
+  bordersColor?: string;
+  dotsColor?: string;
 }
 
 const Sphere: FC<SphereProps> = (props) => {
@@ -25,39 +27,45 @@ const Sphere: FC<SphereProps> = (props) => {
           <Torus
             args={[3, 0.02, 30, 100]}
             position={[0, 0, 0]}
-            color={"red"}
+            color={props.bordersColor ? props.bordersColor : "red"}
             rotationX={Math.PI / 2}
           ></Torus>
           <Torus
             args={[3, 0.02, 30, 100]}
             position={[0, 0, 0]}
-            color={"red"}
+            color={props.bordersColor ? props.bordersColor : "red"}
             rotationX={0}
           ></Torus>
+          <Cylinder
+            color={props.bordersColor ? props.bordersColor : "red"}
+            args={[0.04, 0.04, 3, 32]}
+            position={[3 / 2, 0, 0]}
+            rotationZ={Math.PI / 2}
+          ></Cylinder>
         </>
       )}
       {props.isTopsVisible && (
         <>
           <mesh>
             <sphereGeometry args={[0.1, 32]} />
-            <meshPhongMaterial color={"red"} side={THREE.DoubleSide} />
+            <meshPhongMaterial
+              color={props.dotsColor ? props.dotsColor : "red"}
+              side={THREE.DoubleSide}
+            />
           </mesh>
-          <Cylinder
-            color={"red"}
-            args={[0.04, 0.04, 3, 32]}
-            position={[3 / 2, 0, 0]}
-            rotationZ={Math.PI / 2}
-          ></Cylinder>
           <mesh position={[3, 0, 0]}>
             <sphereGeometry args={[0.1, 32]} />
-            <meshPhongMaterial color={"red"} side={THREE.DoubleSide} />
+            <meshPhongMaterial
+              color={props.dotsColor ? props.dotsColor : "red"}
+              side={THREE.DoubleSide}
+            />
           </mesh>
         </>
       )}
 
       <mesh
         position={props.position}
-        scale={clicked ? 1.5 : 1}
+        scale={1}
         onClick={(event) => click(!clicked)}
         onPointerOver={(event) => hover(true)}
         onPointerOut={(event) => hover(false)}
@@ -65,7 +73,7 @@ const Sphere: FC<SphereProps> = (props) => {
         <sphereBufferGeometry args={props.args} />
         <meshPhongMaterial
           wireframe={props.isWireframe}
-          color={hovered ? "red" : props.color}
+          color={props.color}
           transparent={props.isTransparent}
           opacity={props.isTransparent ? 0.5 : 1}
           //depthTest={props.isTransparent ? false : true}
